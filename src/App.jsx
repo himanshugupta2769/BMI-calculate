@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import './App.css'; // Ensure Tailwind CSS is included
 
 const App = () => {
   const [weight, setWeight] = useState("");
@@ -7,7 +8,7 @@ const App = () => {
   const [msg, setMsg] = useState("");
 
   const onSubmit = (e) => {
-    e.preventDefault(); // Use e to prevent default form submission
+    e.preventDefault(); // Prevent default form submission
 
     if (!weight || !height) {
       alert("Please enter valid data");
@@ -15,8 +16,8 @@ const App = () => {
       const parsedWeight = parseFloat(weight);
       const parsedHeight = parseFloat(height);
 
-      // Calculate BMI
-      const bmiValue = ((parsedWeight / (parsedHeight * parsedHeight)) * 703).toFixed(2);
+      // Calculate BMI using metric units (kg/m^2)
+      const bmiValue = (parsedWeight / (parsedHeight * parsedHeight)).toFixed(2);
       setBmi(bmiValue);
 
       // Set message
@@ -35,42 +36,59 @@ const App = () => {
   };
 
   return (
-    <div className="wrapper ">
-      <h2>BMI CALCULATOR</h2>
-      <form onSubmit={onSubmit}>
-        <div className="formcontent">
-          <label htmlFor="weight">Weight (lbs)</label>
-          <input
-            type="text"
-            id="weight"
-            name="weight"
-            placeholder="Enter your weight in pounds"
-            value={weight}
-            onChange={(e) => setWeight(e.target.value)}
-          />
-          <label htmlFor="height">Height (inches)</label>
-          <input
-            type="text"
-            id="height"
-            name="height"
-            placeholder="Enter your height in inches"
-            value={height}
-            onChange={(e) => setHeight(e.target.value)}
-          />
-        </div>
-        <div className="buttons">
-          <button className="submit" type="submit">
-            Submit
-          </button>
-          <button className="reload" type="button" onClick={onReload}>
-            Reload
-          </button>
-        </div>
-        <div className="msg">
-          <h4>The BMI is: {bmi}</h4>
-          <p>You are: {msg}</p>
-        </div>
-      </form>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">BMI Calculator</h2>
+        <form onSubmit={onSubmit}>
+          <div className="space-y-4 mb-6">
+            <div>
+              <label htmlFor="weight" className="block text-gray-700 font-semibold">Weight (kg)</label>
+              <input
+                type="text"
+                id="weight"
+                name="weight"
+                placeholder="Enter your weight in kilograms"
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+            </div>
+            <div>
+              <label htmlFor="height" className="block text-gray-700 font-semibold">Height (m)</label>
+              <input
+                type="text"
+                id="height"
+                name="height"
+                placeholder="Enter your height in meters"
+                value={height}
+                onChange={(e) => setHeight(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+            </div>
+          </div>
+          <div className="flex justify-between mb-6">
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              Submit
+            </button>
+            <button
+              type="button"
+              onClick={onReload}
+              className="bg-gray-500 text-white px-4 py-2 rounded-md shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            >
+              Reload
+            </button>
+          </div>
+          {bmi && (
+            <div className="text-center mt-4">
+              <h4 className="text-lg font-semibold text-gray-800">The BMI is: <span className="font-bold text-blue-500">{bmi}</span></h4>
+              <p className="text-md text-gray-600">You are: <span className="font-bold text-green-500">{msg}</span></p>
+            </div>
+          )}
+        </form>
+      </div>
     </div>
   );
 };
