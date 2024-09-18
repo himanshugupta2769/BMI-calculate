@@ -16,8 +16,11 @@ const App = () => {
       const parsedWeight = parseFloat(weight);
       const parsedHeight = parseFloat(height);
 
+      // Convert height from cm to meters
+      const heightInMeters = parsedHeight / 100;
+
       // Calculate BMI using metric units (kg/m^2)
-      const bmiValue = (parsedWeight / (parsedHeight * parsedHeight)).toFixed(2);
+      const bmiValue = (parsedWeight / (heightInMeters * heightInMeters)).toFixed(2);
       setBmi(bmiValue);
 
       // Set message
@@ -54,12 +57,12 @@ const App = () => {
               />
             </div>
             <div>
-              <label htmlFor="height" className="block text-gray-700 font-semibold">Height (m)</label>
+              <label htmlFor="height" className="block text-gray-700 font-semibold">Height (cm)</label>
               <input
                 type="text"
                 id="height"
                 name="height"
-                placeholder="Enter your height in meters"
+                placeholder="Enter your height in centimeters"
                 value={height}
                 onChange={(e) => setHeight(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
